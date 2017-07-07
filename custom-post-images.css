@@ -8,7 +8,7 @@
 #cpi .cpi-upload {
 	background-color: #f9f9f9;
 	border: 1px solid #dfdfdf;
-	float: left;
+	/*float: left;*/
 	margin-right: 12px;
 	}
 
@@ -23,7 +23,7 @@
 	background: white url('custom-post-image-placeholder.png') no-repeat center center;
 	height: 150px;
 	margin: 8px 8px 0;
-	width: 150px;
+	/*width: 150px;*/
 	}
 	
 #cpi .cpi-button {

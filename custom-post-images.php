@@ -87,8 +87,8 @@ class CustomPostImages {
 			<div class="cpi-upload-thumbnail">
 				
 				<?php
-				
-					if( $cpi_stored_meta[$cpi_type_name] ) {
+				    // fixed NOTICE: Undefined index: cpi-type-header
+					if( isset($cpi_stored_meta[$cpi_type_name]) ) {
 						echo wp_get_attachment_image( $cpi_stored_meta[$cpi_type_name][0] );
 					}
 				
