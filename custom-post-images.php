@@ -16,14 +16,18 @@ class CustomPostImages {
 	
 	// Create array of images (could be added to a settings page instead of hardcoded)
 	private $cpi_images_array = array(
-		'0' => array(
+        '0' => array(
+            'title' => 'Breadcrumbs Background',
+            'slug' => 'breadcrumbs_bg'
+        ),
+		/*'1' => array(
 			'title' => 'Page Header',
 			'slug' => 'header'
-		),
-		'1' => array(
+		),*/
+		/*'2' => array(
 			'title' => 'Featured Image',
 			'slug' => 'featured'
-		)
+		)*/
 	);
 	
 	private $cpi_post_types = array('post', 'page'); //limit meta box to certain post types
@@ -37,7 +41,7 @@ class CustomPostImages {
 	    add_action( 'admin_print_styles', array( $this, 'cpi_admin_styles' ) ); // Add CSS styles
 	    
 	    add_action( 'admin_enqueue_scripts', array( $this, 'cpi_image_enqueue' ) ); // Add JavaScript
-	    
+
     }
     
 	/**
@@ -89,7 +93,15 @@ class CustomPostImages {
 				<?php
 				    // fixed NOTICE: Undefined index: cpi-type-header
 					if( isset($cpi_stored_meta[$cpi_type_name]) ) {
-						echo wp_get_attachment_image( $cpi_stored_meta[$cpi_type_name][0] );
+//						echo wp_get_attachment_image( $cpi_stored_meta[$cpi_type_name][0] );
+
+                        // http://webdesign-finder.loc/energy/wp-content/uploads/2016/11/slide4.jpg
+//						print_r( wp_get_attachment_url( $cpi_stored_meta[$cpi_type_name][0] ) );
+
+                        ?>
+                        <div style="background-image: url(<?php echo wp_get_attachment_url( $cpi_stored_meta[$cpi_type_name][0] ); ?>);"></div>
+                        <?php
+//                        print_r($cpi_stored_meta[$cpi_type_name]); // Array([0] => 2061)
 					}
 				
 				?>
@@ -209,7 +221,48 @@ class CustomPostImages {
         if ( in_array( $typenow, $this->cpi_post_types )) {
 			wp_enqueue_style( 'cpi_meta_box_styles', plugin_dir_url( __FILE__ ) . 'custom-post-images.css' );
 		}
-	}    
+	}
 }
 
-$custom_post_images = new CustomPostImages(); 
+$custom_post_images = new CustomPostImages();
+
+/**
+ *   Custom Filter: for using in theme templates
+ *
+ * @param $value
+ * @return bool|false|string
+ */
+function cpi_featured_image_callback( $value, $image_slug ) { // $image_slug = 'breadcrumbs_bg' | 'header' | 'featured'
+
+    global $post;
+
+    $featured_meta = get_post_meta( $post->ID );
+    $featured_meta_image = false;
+
+    // fixed NOTICE: Undefined index: cpi-type-header | cpi-type-featured
+    if( isset($featured_meta['cpi-type-' . $image_slug][0]) ) {
+        // energy_printr($featured_meta);
+        //            Array
+        //            (
+        //                ...
+        //                [cpi-type-header] => Array
+        //                (
+        //                    [0] => 2060
+        //                )
+        //            )
+        $featured_meta_image = wp_get_attachment_url($featured_meta['cpi-type-' . $image_slug][0]);
+    }
+    return $featured_meta_image;
+}
+add_filter( 'cpi_featured_image', 'cpi_featured_image_callback', $priority = 10, $accepted_args = 2);
+
+
+/**
+ *  Get featured image in your theme
+ */
+# $featured_meta = get_post_meta( $post->ID );
+# $featured_meta_image = wp_get_attachment_url( $featured_meta['cpi-type-header'][0] );
+# $featured_meta_image = wp_get_attachment_url( $featured_meta['cpi-type-featured'][0] );
+// or with underscore sign:
+# $featured_meta_image = wp_get_attachment_url( $featured_meta['_cpi-type-header'][0] );
+# $featured_meta_image = wp_get_attachment_url( $featured_meta['_cpi-type-featured'][0] );

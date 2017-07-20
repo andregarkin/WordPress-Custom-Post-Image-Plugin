@@ -50,14 +50,7 @@ jQuery(document).ready(function($){
 
                 // var html = '<img src="http://domain.loc/energy/wp-content/uploads/2016/11/slide4.jpg">';
                 // var html = '<div style="background-image: url(http://domain.loc/energy/wp-content/uploads/2016/11/slide4.jpg);' +
-                var html = '<div style="background-image: url(' + media_thumbnail + ');' +
-                    'background-size: contain;' +
-                    'background-position-x: center;' +
-                    'background-position-y: center;' +
-                    'background-repeat: no-repeat;' +
-                    'height: inherit;' +
-                    'background-color: #ccc;' +
-                    '"></div>';
+                var html = '<div style="background-image: url(' + media_thumbnail + ');"></div>';
 
 
                 p.find('.cpi-upload-thumbnail').html(html);

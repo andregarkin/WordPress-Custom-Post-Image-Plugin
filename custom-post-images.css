@@ -25,6 +25,15 @@
 	margin: 8px 8px 0;
 	/*width: 150px;*/
 	}
+
+#cpi .cpi-upload-thumbnail > div {
+    background-size: contain;
+    background-position-x: center;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    height: inherit;
+    background-color: #ccc;
+}
 	
 #cpi .cpi-button {
 	margin: 8px 0 8px 8px;
