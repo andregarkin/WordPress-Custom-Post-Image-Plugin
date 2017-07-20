@@ -89,23 +89,9 @@ class CustomPostImages {
 			<p class="cpi-upload-header"><?php echo $cpi_image['title']; ?></p>
 			
 			<div class="cpi-upload-thumbnail">
-				
-				<?php
-				    // fixed NOTICE: Undefined index: cpi-type-header
-					if( isset($cpi_stored_meta[$cpi_type_name]) ) {
-//						echo wp_get_attachment_image( $cpi_stored_meta[$cpi_type_name][0] );
-
-                        // http://webdesign-finder.loc/energy/wp-content/uploads/2016/11/slide4.jpg
-//						print_r( wp_get_attachment_url( $cpi_stored_meta[$cpi_type_name][0] ) );
-
-                        ?>
+				<?php if( isset($cpi_stored_meta[$cpi_type_name]) ) { ?>
                         <div style="background-image: url(<?php echo wp_get_attachment_url( $cpi_stored_meta[$cpi_type_name][0] ); ?>);"></div>
-                        <?php
-//                        print_r($cpi_stored_meta[$cpi_type_name]); // Array([0] => 2061)
-					}
-				
-				?>
-				
+                    <?php } ?>
 			</div>
 			
 			<input type="button" class="button cpi-button cpi-upload-button" value="<?php _e( 'Choose Image ', 'cpi-textdomain' )?>" />
@@ -239,17 +225,7 @@ function cpi_featured_image_callback( $value, $image_slug ) { // $image_slug = '
     $featured_meta = get_post_meta( $post->ID );
     $featured_meta_image = false;
 
-    // fixed NOTICE: Undefined index: cpi-type-header | cpi-type-featured
-    if( isset($featured_meta['cpi-type-' . $image_slug][0]) ) {
-        // energy_printr($featured_meta);
-        //            Array
-        //            (
-        //                ...
-        //                [cpi-type-header] => Array
-        //                (
-        //                    [0] => 2060
-        //                )
-        //            )
+    if( isset($featured_meta['cpi-type-' . $image_slug][0]) ) { // eg.: 2060 (post ID)
         $featured_meta_image = wp_get_attachment_url($featured_meta['cpi-type-' . $image_slug][0]);
     }
     return $featured_meta_image;
@@ -263,6 +239,6 @@ add_filter( 'cpi_featured_image', 'cpi_featured_image_callback', $priority = 10,
 # $featured_meta = get_post_meta( $post->ID );
 # $featured_meta_image = wp_get_attachment_url( $featured_meta['cpi-type-header'][0] );
 # $featured_meta_image = wp_get_attachment_url( $featured_meta['cpi-type-featured'][0] );
-// or with underscore sign:
+  // or with underscore sign:
 # $featured_meta_image = wp_get_attachment_url( $featured_meta['_cpi-type-header'][0] );
 # $featured_meta_image = wp_get_attachment_url( $featured_meta['_cpi-type-featured'][0] );
